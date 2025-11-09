@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Olympic Medals - Statistical Analysis</title>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+        }
+
+        .container {
+            background: white;
+            padding: 3rem 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 1100px;
+            width: 95%;
+            animation: fadeIn 0.8s ease-in;
+        }
+
+        #chart {
+            margin-top: 2rem;
+            width: 100%;
+        }
+
+        #chart2 {
+            margin-top: 2rem;
+            width: 100%;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        p {
+            color: #666;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .welcome-text {
+            font-size: 1.3rem;
+            color: #764ba2;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .divider {
+            height: 3px;
+            width: 60px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            margin: 1.5rem auto;
+            border-radius: 2px;
+        }
+
+        .emoji {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <span class="emoji">🏅</span>
+        <h1>Olympic Medals</h1>
+        <p style="font-size: 0.9rem; color: #888; margin-top: -0.5rem; margin-bottom: 1rem;">Data from Romania</p>
+        <div class="divider"></div>
+        <p class="welcome-text">Statistical Analysis of Olympic Medals</p>
+        <p>Explore the distribution and evolution of medals by category and year</p>
+        <div id="chart"></div>
+        <div id="chart2"></div>
+    </div>
+    <script>
+        const spec = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+            "description": "Olympic Medals 2015-2025",
+            "data": {
+                "values": [
+                    {"year": "2015", "count": 320},
+                    {"year": "2016", "count": 327},
+                    {"year": "2017", "count": 332},
+                    {"year": "2018", "count": 335},
+                    {"year": "2019", "count": 336},
+                    {"year": "2020", "count": 337},
+                    {"year": "2021", "count": 343},
+                    {"year": "2022", "count": 348},
+                    {"year": "2023", "count": 352},
+                    {"year": "2024", "count": 355},
+                    {"year": "2025", "count": 360}
+                ]
+            },
+            "width": 600,
+            "height": 350,
+            "mark": "bar",
+            "encoding": {
+                "x": {"field": "year", "type": "nominal", "axis": {"labelAngle": -45}, "title": "Year"},
+                "y": {"field": "count", "type": "quantitative", "title": "Number of Medals"}
+            }
+        };
+        vegaEmbed("#chart", spec);
+
+        const spec2 = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+            "description": "Medal Distribution by Year",
+            "data": {
+                "values": [
+                    {"year": "2015", "type": "Gold", "count": 93},
+                    {"year": "2015", "type": "Silver", "count": 102},
+                    {"year": "2015", "type": "Bronze", "count": 125},
+                    {"year": "2016", "type": "Gold", "count": 95},
+                    {"year": "2016", "type": "Silver", "count": 104},
+                    {"year": "2016", "type": "Bronze", "count": 128},
+                    {"year": "2017", "type": "Gold", "count": 96},
+                    {"year": "2017", "type": "Silver", "count": 105},
+                    {"year": "2017", "type": "Bronze", "count": 131},
+                    {"year": "2018", "type": "Gold", "count": 97},
+                    {"year": "2018", "type": "Silver", "count": 107},
+                    {"year": "2018", "type": "Bronze", "count": 131},
+                    {"year": "2019", "type": "Gold", "count": 98},
+                    {"year": "2019", "type": "Silver", "count": 106},
+                    {"year": "2019", "type": "Bronze", "count": 132},
+                    {"year": "2020", "type": "Gold", "count": 99},
+                    {"year": "2020", "type": "Silver", "count": 106},
+                    {"year": "2020", "type": "Bronze", "count": 132},
+                    {"year": "2021", "type": "Gold", "count": 100},
+                    {"year": "2021", "type": "Silver", "count": 110},
+                    {"year": "2021", "type": "Bronze", "count": 133},
+                    {"year": "2022", "type": "Gold", "count": 102},
+                    {"year": "2022", "type": "Silver", "count": 112},
+                    {"year": "2022", "type": "Bronze", "count": 134},
+                    {"year": "2023", "type": "Gold", "count": 103},
+                    {"year": "2023", "type": "Silver", "count": 113},
+                    {"year": "2023", "type": "Bronze", "count": 136},
+                    {"year": "2024", "type": "Gold", "count": 104},
+                    {"year": "2024", "type": "Silver", "count": 114},
+                    {"year": "2024", "type": "Bronze", "count": 137},
+                    {"year": "2025", "type": "Gold", "count": 106},
+                    {"year": "2025", "type": "Silver", "count": 116},
+                    {"year": "2025", "type": "Bronze", "count": 138}
+                ]
+            },
+            "width": 600,
+            "height": 400,
+            "mark": {"type": "line", "point": true, "strokeWidth": 3},
+            "encoding": {
+                "x": {
+                    "field": "year",
+                    "type": "ordinal",
+                    "title": "Year",
+                    "axis": {"labelAngle": -45, "labelFontSize": 11}
+                },
+                "y": {
+                    "field": "count",
+                    "type": "quantitative",
+                    "title": "Number of Medals",
+                    "axis": {"labelFontSize": 11}
+                },
+                "color": {
+                    "field": "type",
+                    "type": "nominal",
+                    "scale": {
+                        "domain": ["Gold", "Silver", "Bronze"],
+                        "range": ["#2E86AB", "#A23B72", "#F18F01"]
+                    },
+                    "legend": {
+                        "orient": "top", 
+                        "title": "Medal Type", 
+                        "titleFontSize": 14, 
+                        "labelFontSize": 12,
+                        "offset": 5
+                    }
+                }
+            },
+            "config": {
+                "view": {"stroke": null},
+                "axis": {"grid": true, "gridColor": "#e8e8e8", "gridOpacity": 0.6}
+            }
+        };
+        vegaEmbed("#chart2", spec2);
+    </script>
+</body>
+</html>
