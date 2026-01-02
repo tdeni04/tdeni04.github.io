@@ -1,215 +1,781 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hu">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Olympic Medals - Statistical Analysis</title>
-    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8" />
+<title>Kiberfenyegetések és anyagi veszteségek világszerte 2016–2024</title>
+<script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+<style>
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #333;
-        }
+body {
+margin: 0;
+font-family: 'Segoe UI', Roboto, sans-serif;
+background: linear-gradient(120deg, #0f2027, #203a43, #2c5364);
+color: #f5f5f5;
+}
+header {
+padding: 3rem;
+text-align: center;
+}
+header h1 {
+font-size: 2.5rem;
+margin-bottom: 1rem;
+}
+header p {
+max-width: 700px;
+margin: auto;
+line-height: 1.6;
+opacity: 0.9;
+}
+section {
+padding: 2rem 4rem;
+}
+.viz-grid {
+display: grid;
+grid-template-columns: 1fr;
+gap: 2rem;
+}
+.viz-card {
+background: rgba(255, 255, 255, 0.08);
+border-radius: 16px;
+padding: 1rem;
+box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+footer {
+text-align: center;
+padding: 2rem;
+font-size: 0.9rem;
+opacity: 0.7;
+}
 
-        .container {
-            background: white;
-            padding: 3rem 2.5rem;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            text-align: center;
-            max-width: 1100px;
-            width: 95%;
-            animation: fadeIn 0.8s ease-in;
-        }
-
-        #chart {
-            margin-top: 2rem;
-            width: 100%;
-        }
-
-        #chart2 {
-            margin-top: 2rem;
-            width: 100%;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        h1 {
-            color: #667eea;
-            margin-bottom: 1rem;
-            font-size: 2.5rem;
-            font-weight: 700;
-        }
-
-        p {
-            color: #666;
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin-bottom: 2rem;
-        }
-
-        .welcome-text {
-            font-size: 1.3rem;
-            color: #764ba2;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-
-        .divider {
-            height: 3px;
-            width: 60px;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            margin: 1.5rem auto;
-            border-radius: 2px;
-        }
-
-        .emoji {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            display: block;
-        }
-    </style>
+</style>
 </head>
 <body>
-    <div class="container">
-        <span class="emoji">🏅</span>
-        <h1>Olympic Medals</h1>
-        <p style="font-size: 0.9rem; color: #888; margin-top: -0.5rem; margin-bottom: 1rem;">Data from Romania</p>
-        <div class="divider"></div>
-        <p class="welcome-text">Statistical Analysis of Olympic Medals</p>
-        <p>Explore the distribution and evolution of medals by category and year</p>
-        <div id="chart"></div>
-        <div id="chart2"></div>
-    </div>
-    <script>
-        const spec = {
-            "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-            "description": "Olympic Medals 2015-2025",
-            "data": {
-                "values": [
-                    {"year": "2015", "count": 320},
-                    {"year": "2016", "count": 327},
-                    {"year": "2017", "count": 332},
-                    {"year": "2018", "count": 335},
-                    {"year": "2019", "count": 336},
-                    {"year": "2020", "count": 337},
-                    {"year": "2021", "count": 343},
-                    {"year": "2022", "count": 348},
-                    {"year": "2023", "count": 352},
-                    {"year": "2024", "count": 355},
-                    {"year": "2025", "count": 360}
-                ]
-            },
-            "width": 600,
-            "height": 350,
-            "mark": "bar",
-            "encoding": {
-                "x": {"field": "year", "type": "nominal", "axis": {"labelAngle": -45}, "title": "Year"},
-                "y": {"field": "count", "type": "quantitative", "title": "Number of Medals"}
-            }
-        };
-        vegaEmbed("#chart", spec);
 
-        const spec2 = {
-            "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-            "description": "Medal Distribution by Year",
-            "data": {
-                "values": [
-                    {"year": "2015", "type": "Gold", "count": 93},
-                    {"year": "2015", "type": "Silver", "count": 102},
-                    {"year": "2015", "type": "Bronze", "count": 125},
-                    {"year": "2016", "type": "Gold", "count": 95},
-                    {"year": "2016", "type": "Silver", "count": 104},
-                    {"year": "2016", "type": "Bronze", "count": 128},
-                    {"year": "2017", "type": "Gold", "count": 96},
-                    {"year": "2017", "type": "Silver", "count": 105},
-                    {"year": "2017", "type": "Bronze", "count": 131},
-                    {"year": "2018", "type": "Gold", "count": 97},
-                    {"year": "2018", "type": "Silver", "count": 107},
-                    {"year": "2018", "type": "Bronze", "count": 131},
-                    {"year": "2019", "type": "Gold", "count": 98},
-                    {"year": "2019", "type": "Silver", "count": 106},
-                    {"year": "2019", "type": "Bronze", "count": 132},
-                    {"year": "2020", "type": "Gold", "count": 99},
-                    {"year": "2020", "type": "Silver", "count": 106},
-                    {"year": "2020", "type": "Bronze", "count": 132},
-                    {"year": "2021", "type": "Gold", "count": 100},
-                    {"year": "2021", "type": "Silver", "count": 110},
-                    {"year": "2021", "type": "Bronze", "count": 133},
-                    {"year": "2022", "type": "Gold", "count": 102},
-                    {"year": "2022", "type": "Silver", "count": 112},
-                    {"year": "2022", "type": "Bronze", "count": 134},
-                    {"year": "2023", "type": "Gold", "count": 103},
-                    {"year": "2023", "type": "Silver", "count": 113},
-                    {"year": "2023", "type": "Bronze", "count": 136},
-                    {"year": "2024", "type": "Gold", "count": 104},
-                    {"year": "2024", "type": "Silver", "count": 114},
-                    {"year": "2024", "type": "Bronze", "count": 137},
-                    {"year": "2025", "type": "Gold", "count": 106},
-                    {"year": "2025", "type": "Silver", "count": 116},
-                    {"year": "2025", "type": "Bronze", "count": 138}
-                ]
-            },
-            "width": 600,
-            "height": 400,
-            "mark": {"type": "line", "point": true, "strokeWidth": 3},
-            "encoding": {
-                "x": {
-                    "field": "year",
-                    "type": "ordinal",
-                    "title": "Year",
-                    "axis": {"labelAngle": -45, "labelFontSize": 11}
-                },
-                "y": {
-                    "field": "count",
-                    "type": "quantitative",
-                    "title": "Number of Medals",
-                    "axis": {"labelFontSize": 11}
-                },
-                "color": {
-                    "field": "type",
-                    "type": "nominal",
-                    "scale": {
-                        "domain": ["Gold", "Silver", "Bronze"],
-                        "range": ["#2E86AB", "#A23B72", "#F18F01"]
-                    },
-                    "legend": {
-                        "orient": "top", 
-                        "title": "Medal Type", 
-                        "titleFontSize": 14, 
-                        "labelFontSize": 12,
-                        "offset": 5
-                    }
-                }
-            },
-            "config": {
-                "view": {"stroke": null},
-                "axis": {"grid": true, "gridColor": "#e8e8e8", "gridOpacity": 0.6}
-            }
-        };
-        vegaEmbed("#chart2", spec2);
-    </script>
+
+<header>
+<h1>Kiberfenyegetések és anyagi veszteségek világszerte</h1>
+<p>
+</p>
+</header>
+
+
+<section>
+  <h2>Bevezető</h2>
+  <p>
+    Az alábbi vizualizációs gyűjtemény a globális kiberbiztonsági helyzetet és annak gazdasági,
+     technológiai hatásait mutatja be 2016 és 2024 közötti időszakra.
+      A különböző diagramok nemcsak az éves kiberincidensek számát és azok típusait,
+       hanem a sértetteknek okozott anyagi veszteségeket, a leggyakoribb rosszindulatú fájltípusokat, 
+       valamint a támadások terjedési csatornáit is ábrázolják.
+
+A vizualizációk célja, hogy az adatokat áttekinthető, összehasonlítható és könnyen értelmezhető
+ módon jelenítsék meg, kiemelve a domináns trendeket, az extrém eseteket, és a potenciálisan 
+ legveszélyesebb támadási felületeket. A grafikonok segítségével könnyen azonosíthatók a legnagyobb 
+ kockázatot jelentő kiberfenyegetések, valamint a stratégiai és operatív védekezési intézkedésekhez 
+ szükséges fókuszterületek.
+  </p>
+  </section>
+
+
+<section>
+
+<section>
+  <h2>A kibertámadások éves száma világszerte 2016-tól 2024-ig (millióban).</h2>
+  <p>
+    2024-ben több mint 15 millió kiberbűnözési incidenst regisztráltak világszerte, 
+    ami enyhe csökkenést jelent az előző évhez képest.
+     Ez a szám 2021-ben ugrott meg, elérve a 19,23 milliót.
+  </p>
+</section>
+<div class="viz-grid">
+<div class="viz-card"><div id="viz1"></div></div>
+<section>
+  <h2>A rosszindulatú programok (malware) támadási vektorainak eloszlása világszerte 2018-tól 2024-ig</h2>
+  <p>
+    A "malware attack vectors" (támadási vektorok) azokra a módszerekre vagy útvonalakra utal,
+     amelyeken keresztül a rosszindulatú programok (malware) bejutnak a rendszerekbe vagy megfertőzik azokat.
+  </p>
+</section>
+<div class="viz-card"><div id="viz2"></div></div>
+<section>
+  <h2>A kiberbűnözés becsült költsége világszerte 2018-2029 (billió USA dollárban)</h2>
+  <p>
+    2018 és 2024 között a globális rosszindulatú program (malware) támadások emailen keresztül
+    történő aránya 33 százalékról 68 százalékra nőtt. 
+    A webes támadások aránya csökkent, 2018-ban 67 százalékról 2024-re 32 százalékra.
+  </p>
+</section>
+<div class="viz-card"><div id="viz3"></div></div>
+<section>
+  <h2>A kiberbűnözési típusok a legmagasabb áldozati veszteségekkel az Egyesült Államokban 2024-ben, 
+    típus szerint (millió USA dollárban).</h2>
+  <p>
+    2024-ben a befektetési csalás volt az a kiberbűncselekmény,
+     amely a legsúlyosabb anyagi károkat okozta az Egyesült Államok lakosainak. 
+     Összességében az ebben a kategóriában elszenvedett áldozati veszteségek meghaladták a 6,5 milliárd USA dollárt. 
+     Az üzleti e-mail kompromittálás (BEC) a második helyen végzett, a bejelentett áldozati veszteségek körülbelül 2,8 milliárd USA dollárt tettek ki.
+     További 1,5 milliárd USA dollár veszteséget jelentettek a technikai támogatási csalások áldozatai.
+     „A veszteségek több nagyságrendet fednek le, ezért szimmetrikus logaritmikus skálát alkalmaztam, 
+     amely lehetővé teszi az extrém értékek és a kisebb kategóriák egyidejű, torzításmentes megjelenítését.”
+  </p>
+</section>
+<div class="viz-card"><div id="viz4"></div></div>
+<section>
+  
+  <h2>A kibertámadások éves eloszlása világszerte 2016-tól 2024-ig, típus szerint.</h2>
+  <p>"Adathalász csalások",
+    "Zsarolás",
+    "Személyes adatok megsértése",
+    "Nem fizetés/Nem szállítás",
+    "Befektetési csalás",
+    "Technikai támogatás",
+    "Személyazonosság-lopás",
+    "Hitelkártyacsalás".</p>
+</section>
+<div class="viz-card"><div id="viz5"></div></div>
+<section>
+  <h2>A leggyakoribb rosszindulatú fájltípusok, 
+    amelyeket globálisan weben és emailen keresztül fogadtak 2024-ben.</h2>
+  <p>
+    2024-ben a leggyakoribb rosszindulatú program fájltípus, 
+    amelyet világszerte weben keresztül fogadtak, a Microsoft Windows .exe fájlok voltak, 
+    az észlelések 54 százalékával, majd a .dll fájlok következtek. Másrészt a .html 
+    fájlok voltak a leggyakrabban fogadott rosszindulatú program fájltípus emailen keresztül.
+  </p>
+</section>
+<div class="viz-card"><div id="viz6"></div></div> 
+</div>
+</section>
+
+
+<footer>
+© 2025 –Kiberfenyegetések és anyagi veszteségek világszerte 
+</footer>
+
+
+<script>
+
+
+const accidentsSpec = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "title": {
+    "text": "Annual number of cyberattacks worldwide (2016–2024)",
+    "fontSize": 16,
+    "fontWeight": "bold"
+  },
+  "width": 700,
+  "height": 400,
+  "data": {
+    "values": [
+      { "year": 2016, "attacks": 4.32 },
+      { "year": 2017, "attacks": 5.75 },
+      { "year": 2018, "attacks": 7.06 },
+      { "year": 2019, "attacks": 10.49 },
+      { "year": 2020, "attacks": 18.07 },
+      { "year": 2021, "attacks": 19.23 },
+      { "year": 2022, "attacks": 16.80 },
+      { "year": 2023, "attacks": 16.73 },
+      { "year": 2024, "attacks": 15.16 }
+    ]
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "line",
+        "strokeWidth": 3,
+        "color": "#2C3E50"
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "title": "Year",
+          "axis": { "labelAngle": -45 }
+        },
+        "y": {
+          "field": "attacks",
+          "type": "quantitative",
+          "title": "Number of cyberattacks (millions)",
+          "axis": { "grid": true }
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "point",
+        "filled": true,
+        "size": 100,
+        "color": "#2C3E50",
+        "tooltip": true
+      },
+      "encoding": {
+        "x": { "field": "year", "type": "ordinal" },
+        "y": { "field": "attacks", "type": "quantitative" },
+        "tooltip": [
+          { "field": "year", "type": "ordinal", "title": "Year" },
+          {
+            "field": "attacks",
+            "type": "quantitative",
+            "title": "Attacks (millions)",
+            "format": ".2f"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "dy": -10,
+        "fontSize": 11,
+        "fontWeight": "bold"
+      },
+      "encoding": {
+        "x": { "field": "year", "type": "ordinal" },
+        "y": { "field": "attacks", "type": "quantitative" },
+        "text": {
+          "field": "attacks",
+          "type": "quantitative",
+          "format": ".2f"
+        }
+      }
+    }
+  ],
+  "config": {
+    "view": { "stroke": null },
+    "axis": {
+      "labelFontSize": 11,
+      "titleFontSize": 12
+    }
+  }
+}
+
+const airtrafficfatalitiesSpec = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "width": 700,
+  "height": 400,
+  "data": {
+    "values": [
+      { "year": 2018, "cost": 0.86 },
+      { "year": 2019, "cost": 1.16 },
+      { "year": 2020, "cost": 2.95 },
+      { "year": 2021, "cost": 5.49 },
+      { "year": 2022, "cost": 7.08 },
+      { "year": 2023, "cost": 8.15 },
+      { "year": 2024, "cost": 9.22 },
+      { "year": 2025, "cost": 10.29 },
+      { "year": 2026, "cost": 11.36 },
+      { "year": 2027, "cost": 12.43 },
+      { "year": 2028, "cost": 13.82 },
+      { "year": 2029, "cost": 15.63 }
+    ]
+  },
+  "mark": {
+    "type": "bar",
+    "color": "#1E90FF",
+    "tooltip": true
+  },
+  "encoding": {
+    "x": {
+      "field": "year",
+      "type": "ordinal",
+      "title": "Year",
+      "axis": {
+        "labelAngle": -45
+      }
+    },
+    "y": {
+      "field": "cost",
+      "type": "quantitative",
+      "title": "Estimated cost (trillion U.S. dollars)",
+      "axis": {
+        "grid": true
+      }
+    },
+    "tooltip": [
+      { "field": "year", "type": "ordinal", "title": "Year" },
+      {
+        "field": "cost",
+        "type": "quantitative",
+        "title": "Cost (trillion USD)",
+        "format": ".2f"
+      }
+    ]
+  },
+  "title": {
+    "text": "Estimated cost of cybercrime worldwide (2018–2029)",
+    "fontSize": 16,
+    "fontWeight": "bold"
+  },
+  "config": {
+    "view": { "stroke": null },
+    "axis": {
+      "labelFontSize": 11,
+      "titleFontSize": 12
+    }
+  }
+}
+
+const airlineinsurancecostsSpec = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "title": {
+    "text": "Most common malicious file types via web and e-mail (2024)",
+    "fontSize": 16,
+    "fontWeight": "bold"
+  },
+  "width": 700,
+  "height": 420,
+  "data": {
+    "values": [
+      { "file": "exe", "vector": "Web", "value": 54 },
+      { "file": "exe", "vector": "E-mail", "value": 5 },
+
+      { "file": "dll", "vector": "Web", "value": 11 },
+      { "file": "dll", "vector": "E-mail", "value": 0 },
+
+      { "file": "pdf", "vector": "Web", "value": 8 },
+      { "file": "pdf", "vector": "E-mail", "value": 22 },
+
+      { "file": "jar", "vector": "Web", "value": 5 },
+      { "file": "jar", "vector": "E-mail", "value": 0 },
+
+      { "file": "apk", "vector": "Web", "value": 4 },
+      { "file": "apk", "vector": "E-mail", "value": 0 },
+
+      { "file": "doc", "vector": "Web", "value": 3 },
+      { "file": "doc", "vector": "E-mail", "value": 0.7 },
+
+      { "file": "xls", "vector": "Web", "value": 1 },
+      { "file": "xls", "vector": "E-mail", "value": 1.2 },
+
+      { "file": "html", "vector": "Web", "value": 0 },
+      { "file": "html", "vector": "E-mail", "value": 61 },
+
+      { "file": "lnk", "vector": "Web", "value": 0 },
+      { "file": "lnk", "vector": "E-mail", "value": 4 },
+
+      { "file": "js", "vector": "Web", "value": 0 },
+      { "file": "js", "vector": "E-mail", "value": 1 }
+    ]
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "rect",
+        "cornerRadius": 6
+      },
+      "encoding": {
+        "x": {
+          "field": "vector",
+          "type": "nominal",
+          "title": "Delivery vector"
+        },
+        "y": {
+          "field": "file",
+          "type": "nominal",
+          "title": "File type",
+          "sort": "-x"
+        },
+        "color": {
+          "field": "value",
+          "type": "quantitative",
+          "title": "Share (%)",
+          "scale": {
+            "scheme": "blues"
+          }
+        },
+        "tooltip": [
+          { "field": "file", "type": "nominal", "title": "File type" },
+          { "field": "vector", "type": "nominal", "title": "Vector" },
+          { "field": "value", "type": "quantitative", "title": "Share (%)" }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "color": "black",
+        "fontWeight": "bold"
+      },
+      "encoding": {
+        "x": { "field": "vector", "type": "nominal" },
+        "y": { "field": "file", "type": "nominal" },
+        "text": {
+          "field": "value",
+          "type": "quantitative",
+          "format": ".1f"
+        },
+        "opacity": {
+          "condition": {
+            "test": "datum.value > 0",
+            "value": 1
+          },
+          "value": 0
+        }
+      }
+    }
+  ],
+  "config": {
+    "view": { "stroke": null },
+    "axis": {
+      "labelFontSize": 11,
+      "titleFontSize": 12
+    }
+  }
+}
+
+
+const onboardfatalitiesSpec = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "width": 700,
+  "height": 500,
+  "data": {
+    "values": [
+      { "type": "Investment", "losses": 6570.64 },
+      { "type": "Business e-mail compromise (BEC)", "losses": 2770.15 },
+      { "type": "Tech support", "losses": 1464.76 },
+      { "type": "Personal data breach", "losses": 1453.3 },
+      { "type": "Non-payment / Non-delivery", "losses": 785.44 },
+      { "type": "Confidence fraud / Romance", "losses": 672.01 },
+      { "type": "Government impersonation", "losses": 405.62 },
+      { "type": "Data breach", "losses": 364.86 },
+      { "type": "Other", "losses": 280.28 },
+      { "type": "Employment", "losses": 264.22 },
+      { "type": "Credit card / Check fraud", "losses": 199.89 },
+      { "type": "Identity theft", "losses": 174.35 },
+      { "type": "Real estate", "losses": 173.59 },
+      { "type": "Extortion", "losses": 143.19 },
+      { "type": "Lottery / sweepstakes / inheritance", "losses": 102.21 },
+      { "type": "Advanced fee", "losses": 102.07 },
+      { "type": "Phishing / Spoofing", "losses": 70.01 },
+      { "type": "SIM Swap", "losses": 25.98 },
+      { "type": "Overpayment", "losses": 21.45 },
+      { "type": "Ransomware", "losses": 12.47 },
+      { "type": "Harassment / stalking", "losses": 10.61 },
+      { "type": "Botnet", "losses": 8.86 },
+      { "type": "IPR / Copyright / Counterfeit", "losses": 8.72 },
+      { "type": "Threats of violence", "losses": 1.84 },
+      { "type": "Malware", "losses": 1.37 },
+      { "type": "Crimes against children", "losses": 0.52 }
+    ]
+  },
+  "mark": {
+    "type": "bar",
+    "color": "#e74c3c",
+    "tooltip": true
+  },
+  "encoding": {
+    "x": {
+      "field": "losses",
+      "type": "quantitative",
+      "title": "Victim losses (million U.S. dollars, symlog scale)",
+      "scale": {
+        "type": "symlog",
+        "constant": 1
+      },
+      "axis": {
+        "grid": true,
+        "tickCount": 6
+      }
+    },
+    "y": {
+      "field": "type",
+      "type": "nominal",
+      "title": "Cybercrime type",
+      "sort": "-x",
+      "axis": { "labelLimit": 260 }
+    },
+    "tooltip": [
+      { "field": "type", "type": "nominal", "title": "Cybercrime type" },
+      {
+        "field": "losses",
+        "type": "quantitative",
+        "title": "Losses (million USD)",
+        "format": ",.2f"
+      }
+    ]
+  },
+  "title": {
+    "text": "Cybercrime victim losses in the United States by type (2024)",
+    "fontSize": 16,
+    "fontWeight": "bold"
+  },
+  "config": {
+    "view": { "stroke": null },
+    "axis": {
+      "labelFontSize": 11,
+      "titleFontSize": 12
+    }
+  }
+}
+
+const crewfatalitiesSpec = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "title": {
+    "text": "Annual distribution of cyberattacks worldwide (2016–2024), by type",
+    "fontSize": 16,
+    "fontWeight": "bold"
+  },
+  "width": 700,
+  "height": 400,
+  "data": {
+    "values": [
+      {"year": 2016, "Phishing scams": 0.44, "Extortion": 0.39, "Personal data breach": 0.62, "Non-payment/Non-delivery": 1.83, "Investment fraud": 0.05, "Tech support": 0.25, "Identity theft": 0.38, "Credit card fraud": 0.36},
+      {"year": 2017, "Phishing scams": 0.72, "Extortion": 0.43, "Personal data breach": 0.88, "Non-payment/Non-delivery": 2.39, "Investment fraud": 0.09, "Tech support": 0.31, "Identity theft": 0.50, "Credit card fraud": 0.43},
+      {"year": 2018, "Phishing scams": 0.77, "Extortion": 1.49, "Personal data breach": 1.47, "Non-payment/Non-delivery": 1.89, "Investment fraud": 0.11, "Tech support": 0.42, "Identity theft": 0.47, "Credit card fraud": 0.44},
+      {"year": 2019, "Phishing scams": 3.93, "Extortion": 1.48, "Personal data breach": 1.31, "Non-payment/Non-delivery": 2.12, "Investment fraud": 0.14, "Tech support": 0.47, "Identity theft": 0.55, "Credit card fraud": 0.49},
+      {"year": 2020, "Phishing scams": 7.82, "Extortion": 2.49, "Personal data breach": 1.47, "Non-payment/Non-delivery": 3.53, "Investment fraud": 0.28, "Tech support": 0.50, "Identity theft": 1.41, "Credit card fraud": 0.57},
+      {"year": 2021, "Phishing scams": 10.20, "Extortion": 1.24, "Personal data breach": 1.63, "Non-payment/Non-delivery": 2.60, "Investment fraud": 0.65, "Tech support": 0.75, "Identity theft": 1.63, "Credit card fraud": 0.53},
+      {"year": 2022, "Phishing scams": 8.95, "Extortion": 1.17, "Personal data breach": 1.75, "Non-payment/Non-delivery": 1.54, "Investment fraud": 0.91, "Tech support": 0.97, "Identity theft": 0.83, "Credit card fraud": 0.68},
+      {"year": 2023, "Phishing scams": 8.90, "Extortion": 1.39, "Personal data breach": 1.66, "Non-payment/Non-delivery": 1.50, "Investment fraud": 1.18, "Tech support": 1.10, "Identity theft": 0.59, "Credit card fraud": 0.41}
+    ]
+  },
+  "params": [
+    {
+      "name": "selectedType",
+      "value": null,
+      "bind": {
+        "input": "select",
+        "options": [
+          null,
+          "Phishing scams",
+          "Extortion",
+          "Personal data breach",
+          "Non-payment/Non-delivery",
+          "Investment fraud",
+          "Tech support",
+          "Identity theft",
+          "Credit card fraud"
+        ],
+        "labels": [
+          "All",
+          "Phishing scams",
+          "Extortion",
+          "Personal data breach",
+          "Non-payment / Non-delivery",
+          "Investment fraud",
+          "Tech support",
+          "Identity theft",
+          "Credit card fraud"
+        ],
+        "name": "Show: "
+      }
+    }
+  ],
+  "transform": [
+    {
+      "fold": [
+        "Phishing scams",
+        "Extortion",
+        "Personal data breach",
+        "Non-payment/Non-delivery",
+        "Investment fraud",
+        "Tech support",
+        "Identity theft",
+        "Credit card fraud"
+      ],
+      "as": ["attack_type", "percentage"]
+    }
+  ],
+  "layer": [
+    {
+      "mark": {
+        "type": "line",
+        "strokeWidth": 3,
+        "point": {"filled": true, "size": 80},
+        "tooltip": true
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "axis": {"title": "Year"}
+        },
+        "y": {
+          "field": "percentage",
+          "type": "quantitative",
+          "axis": {"title": "Percentage (%)"}
+        },
+        "color": {
+          "field": "attack_type",
+          "type": "nominal",
+          "legend": {"title": "Attack type"}
+        },
+        "opacity": {
+          "condition": {
+            "test": "selectedType === null || selectedType === datum.attack_type",
+            "value": 1
+          },
+          "value": 0.15
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "fontSize": 11,
+        "fontWeight": "bold",
+        "dy": -10
+      },
+      "transform": [{"filter": "datum.percentage > 0.5"}],
+      "encoding": {
+        "x": {"field": "year", "type": "ordinal"},
+        "y": {"field": "percentage", "type": "quantitative"},
+        "text": {"field": "percentage", "type": "quantitative", "format": ".2f"},
+        "color": {"field": "attack_type", "type": "nominal"},
+        "opacity": {
+          "condition": {
+            "test": "selectedType === null || selectedType === datum.attack_type",
+            "value": 1
+          },
+          "value": 0.15
+        }
+      }
+    }
+  ]
+}
+
+const commercialjetSpec = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "title": {
+    "text": "Distribution of malware attack vectors worldwide (2018–2024)",
+    "fontSize": 16,
+    "fontWeight": "bold"
+  },
+  "width": 700,
+  "height": 400,
+  "data": {
+    "values": [
+      { "year": 2018, "Web": 67, "E-mail": 33 },
+      { "year": 2019, "Web": 36, "E-mail": 64 },
+      { "year": 2020, "Web": 17, "E-mail": 83 },
+      { "year": 2021, "Web": 16, "E-mail": 84 },
+      { "year": 2022, "Web": 14, "E-mail": 86 },
+      { "year": 2023, "Web": 11, "E-mail": 89 },
+      { "year": 2024, "Web": 32, "E-mail": 68 }
+    ]
+  },
+  "params": [
+    {
+      "name": "selectedVector",
+      "value": null,
+      "bind": {
+        "input": "select",
+        "options": [null, "Web", "E-mail"],
+        "labels": ["Both", "Web", "E-mail"],
+        "name": "Show vector: "
+      }
+    }
+  ],
+  "transform": [
+    {
+      "fold": ["Web", "E-mail"],
+      "as": ["vector", "percentage"]
+    }
+  ],
+  "layer": [
+    {
+      "mark": {
+        "type": "bar",
+        "tooltip": true
+      },
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "ordinal",
+          "axis": { "labelAngle": -45 },
+          "title": "Year"
+        },
+        "xOffset": {
+          "field": "vector"
+        },
+        "y": {
+          "field": "percentage",
+          "type": "quantitative",
+          "title": "Share of attacks (%)",
+          "scale": { "domain": [0, 100] }
+        },
+        "color": {
+          "field": "vector",
+          "type": "nominal",
+          "scale": {
+            "domain": ["Web", "E-mail"],
+            "range": ["#E74C3C", "#3498DB"]
+          },
+          "legend": { "title": "Attack vector" }
+        },
+        "opacity": {
+          "condition": {
+            "test": "selectedVector === null || selectedVector === datum.vector",
+            "value": 1
+          },
+          "value": 0.2
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "dy": -5,
+        "fontSize": 11,
+        "fontWeight": "bold"
+      },
+      "encoding": {
+        "x": { "field": "year", "type": "ordinal" },
+        "xOffset": { "field": "vector" },
+        "y": {
+          "field": "percentage",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "percentage",
+          "type": "quantitative",
+          "format": ".0f"
+        },
+        "color": {
+          "value": "#000"
+        },
+        "opacity": {
+          "condition": {
+            "test": "selectedVector === null || selectedVector === datum.vector",
+            "value": 1
+          },
+          "value": 0
+        }
+      }
+    }
+  ],
+  "config": {
+    "view": { "stroke": null },
+    "axis": {
+      "labelFontSize": 11,
+      "titleFontSize": 12
+    },
+    "legend": {
+      "orient": "bottom",
+      "direction": "horizontal"
+    }
+  }
+}
+
+/*
+vegaEmbed('#viz1', accidentsSpec);
+vegaEmbed('#viz2', airtrafficfatalitiesSpec);
+vegaEmbed('#viz3', airlineinsurancecostsSpec);
+vegaEmbed('#viz4', onboardfatalitiesSpec);
+vegaEmbed('#viz5', crewfatalitiesSpec);
+vegaEmbed('#viz6', commercialjetSpec);
+*/
+
+vegaEmbed('#viz1', accidentsSpec);
+vegaEmbed('#viz2', commercialjetSpec);
+vegaEmbed('#viz3', airtrafficfatalitiesSpec);
+vegaEmbed('#viz4', onboardfatalitiesSpec);
+vegaEmbed('#viz5', crewfatalitiesSpec);
+vegaEmbed('#viz6', airlineinsurancecostsSpec);
+</script>
+
+
 </body>
 </html>
